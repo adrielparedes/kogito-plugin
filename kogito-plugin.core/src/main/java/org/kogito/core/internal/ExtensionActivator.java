@@ -8,26 +8,26 @@ import org.osgi.framework.BundleContext;
  */
 public class ExtensionActivator implements BundleActivator {
 
-	// The plug-in ID
-	public static final String PLUGIN_ID = "kogito-plugin.core";
+    // The plug-in ID
+    public static final String PLUGIN_ID = "kogito-plugin.core";
 
-	// The shared instance
-	private static ExtensionActivator plugin;
-	
-	public void start(BundleContext context) throws Exception {
-		plugin  = this;
-	}
+    // The shared instance
+    private static ExtensionActivator plugin;
 
-	public void stop(BundleContext context) throws Exception {
-		plugin = null;
-	}
+    public void start(BundleContext context) throws Exception {
+        plugin = this;
+    }
 
-	/**
-	 * Returns the shared instance
-	 *
-	 * @return the shared instance
-	 */
-	public static ExtensionActivator getDefault() {
-		return plugin;
-	}
+    public void stop(BundleContext context) throws Exception {
+        plugin = null;
+    }
+
+    /**
+     * Returns the shared instance
+     *
+     * @return the shared instance
+     */
+    public static ExtensionActivator getDefault() {
+        return plugin;
+    }
 }

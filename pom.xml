@@ -20,7 +20,7 @@
     <tycho.scmUrl>scm:git:https://github.com/adrielparedes/kogito-plugin.git</tycho.scmUrl>
     <tycho.generateSourceReferences>true</tycho.generateSourceReferences>
     <jdt.ls.version>1.0.0.20210415193450</jdt.ls.version>
-    <tycho.test.platformArgs />
+    <tycho.test.platformArgs/>
     <tycho.test.jvmArgs>-Xmx512m ${tycho.test.platformArgs}</tycho.test.jvmArgs>
 
 
@@ -31,6 +31,8 @@
     <jacoco.destFile>${project.build.directory}/jacoco.exec</jacoco.destFile>
     <sonar.jacoco.reportPath>${jacoco.destFile}</sonar.jacoco.reportPath>
 
+    <maven.compiler.target>11</maven.compiler.target>
+    <maven.compiler.source>11</maven.compiler.source>
 
   </properties>
   <repositories>
@@ -70,6 +72,7 @@
               <version>${jdt.ls.version}</version>
             </artifact>
           </target>
+          <resolver>p2</resolver>
           <pomDependencies>consider</pomDependencies>
           <ignoreTychoRepositories>true</ignoreTychoRepositories>
         </configuration>

@@ -2,7 +2,7 @@
 <?eclipse version="3.5"?>
 <plugin>
    <extension point="org.eclipse.jdt.ls.core.delegateCommandHandler">
-      <delegateCommandHandler class="org.kogito.core.internal.SampleDelegateCommandHandler">
+      <delegateCommandHandler class="org.kogito.core.internal.DelegateHandler">
             <command id="org.kogito.samplecommand"/>
        </delegateCommandHandler>
    </extension>
