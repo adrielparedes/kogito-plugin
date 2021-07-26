@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.5"?>
+<plugin>
+   <extension point="org.eclipse.jdt.ls.core.delegateCommandHandler">
+      <delegateCommandHandler class="org.kogito.core.internal.SampleDelegateCommandHandler">
+            <command id="org.kogito.samplecommand"/>
+       </delegateCommandHandler>
+   </extension>
+</plugin>

@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: kogito-plugin Core Extension
+Bundle-SymbolicName: kogito-plugin.core;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.kogito.core.internal.ExtensionActivator
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.jdt.ls.core
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Import-Package: com.google.gson,
+ com.google.gson.stream
