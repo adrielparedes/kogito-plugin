@@ -16,8 +16,33 @@
 
 package org.kogito.core.internal.engine;
 
-public class Templates {
+public class TemplateParameters {
 
-    public final static String TEMPLATE_CLASS = "templateClass.java";
-    public final static String TEMPLATE_ACCESSORS = "templateAccessors.java";
+    private String completeText;
+    private String fqcn;
+    private String className;
+
+    public String getCompleteText() {
+        return completeText;
+    }
+
+    public void setCompleteText(String completeText) {
+        this.completeText = completeText;
+    }
+
+    public String getFqcn() {
+        return fqcn;
+    }
+
+    public void setFqcn(String fqcn) {
+        this.fqcn = fqcn;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
 }

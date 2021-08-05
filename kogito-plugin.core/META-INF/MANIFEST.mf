@@ -8,5 +8,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.jdt.ls.core
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-ClassPath: lib/freemarker-2.3.31.jar
 Import-Package: com.google.gson,
- com.google.gson.stream
+ com.google.gson.stream,
+ org.slf4j
+

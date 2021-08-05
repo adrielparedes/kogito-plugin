@@ -13,8 +13,41 @@
 
   <properties>
     <version.com.google.code.gson>2.8.5</version.com.google.code.gson>
-    <version.io.pebbletemplates>3.1.5</version.io.pebbletemplates>
+    <version.org.freemarker>2.3.31</version.org.freemarker>
   </properties>
+
+  <build>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <?m2e execute onConfiguration?>
+            <id>get-libs</id>
+            <goals>
+              <goal>copy</goal>
+            </goals>
+            <phase>validate</phase>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.freemarker</groupId>
+                  <artifactId>freemarker</artifactId>
+                  <version>${version.org.freemarker}</version>
+                </artifactItem>
+              </artifactItems>
+              <skip>false</skip>
+              <outputDirectory>${basedir}/lib/</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+
+  </build>
+
 
   <dependencies>
     <dependency>
@@ -23,9 +56,14 @@
       <version>${version.com.google.code.gson}</version>
     </dependency>
     <dependency>
-      <groupId>io.pebbletemplates</groupId>
-      <artifactId>pebble</artifactId>
-      <version>${version.io.pebbletemplates}</version>
+      <groupId>org.freemarker</groupId>
+      <artifactId>freemarker</artifactId>
+      <version>${version.org.freemarker}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.30</version>
     </dependency>
   </dependencies>
 </project>

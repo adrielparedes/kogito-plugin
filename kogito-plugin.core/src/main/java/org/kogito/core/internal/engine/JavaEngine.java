@@ -1,3 +1,19 @@
+/*
+ * Copyright 2021 Red Hat, Inc. and/or its affiliates.
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+
 package org.kogito.core.internal.engine;
 
 import java.io.IOException;
@@ -7,29 +23,34 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
 
-import com.mitchellbosecke.pebble.PebbleEngine;
-import com.mitchellbosecke.pebble.template.PebbleTemplate;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 import org.kogito.core.internal.engine.exceptions.EngineException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class JavaEngine {
 
-    private final PebbleEngine engine;
+    private final Configuration engine;
     private final Logger logger = LoggerFactory.getLogger(JavaEngine.class);
 
     public JavaEngine() {
-        this.engine = new PebbleEngine.Builder().build();
+        this.engine = new Configuration(Configuration.getVersion());
+        try {
+            Path templatePath = Paths.get("src/main/resources/templates");
+            logger.info("Getting templates from {}", templatePath);
+            this.engine.setDirectoryForTemplateLoading(templatePath.toFile());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    protected String evaluate(String template, Map<String, Object> context) {
+    protected String evaluate(String template, TemplateParameters templateParameters) {
         try {
             Writer writer = new StringWriter();
-            PebbleTemplate compiledTemplate = this.engine.getTemplate(template);
-            compiledTemplate.evaluate(writer, context);
+            Template compiledTemplate = this.engine.getTemplate(template);
+            compiledTemplate.process(templateParameters, writer);
             return writer.toString();
         } catch (Exception e) {
             String message = "Can't evaluate template " + template;
@@ -39,23 +60,24 @@ public class JavaEngine {
     }
 
     public BuildInformation buildImportClass(String uri, String importText) {
-        Map<String, Object> context = new HashMap<>();
-        context.put("className", getClassName(uri));
-        context.put("completeText", importText);
 
-        String content = this.evaluate(Templates.TEMPLATE_CLASS, context);
+        TemplateParameters item = new TemplateParameters();
+        item.setClassName(getClassName(uri));
+        item.setCompleteText(importText);
+
+        String content = this.evaluate(Templates.TEMPLATE_CLASS, item);
 
         return new BuildInformation(uri, getContent(uri), content, 3, getEndOfLinePosition(content, 3));
     }
 
-    public BuildInformation buildPublicContent(String uri, String fqdn, String completeText) {
+    public BuildInformation buildPublicContent(String uri, String fqcn, String completeText) {
 
-        Map<String, Object> context = new HashMap<>();
-        context.put("className", getClassName(uri));
-        context.put("fqdn", fqdn);
-        context.put("completeText", completeText);
+        TemplateParameters item = new TemplateParameters();
+        item.setClassName(getClassName(uri));
+        item.setCompleteText(completeText);
+        item.setFqcn(fqcn);
 
-        String content = this.evaluate(Templates.TEMPLATE_ACCESSORS, context);
+        String content = this.evaluate(Templates.TEMPLATE_ACCESSORS, item);
 
         return new BuildInformation(uri, getContent(uri), content, 8, getEndOfLinePosition(content, 8));
     }

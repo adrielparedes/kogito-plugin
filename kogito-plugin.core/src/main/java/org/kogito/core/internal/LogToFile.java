@@ -14,10 +14,23 @@
  *    limitations under the License.
  */
 
-package org.kogito.core.internal.engine;
+package org.kogito.core.internal;
 
-public class Templates {
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Date;
 
-    public final static String TEMPLATE_CLASS = "templateClass.java";
-    public final static String TEMPLATE_ACCESSORS = "templateAccessors.java";
+public class LogToFile {
+
+    public static void log(String content) {
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter("/Users/aparedes/data/dev/workspace/redhat/kogito/language-server/kogito-ls/tmp/prueba.log", true));
+            String str = new Date().getTime() + " " + content;
+            writer.write(str);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
