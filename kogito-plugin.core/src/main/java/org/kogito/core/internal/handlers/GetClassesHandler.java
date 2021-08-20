@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.ls.core.internal.JavaLanguageServerPlugin;
 import org.eclipse.jdt.ls.core.internal.handlers.JDTLanguageServer;
@@ -38,7 +40,6 @@ import org.eclipse.lsp4j.TextDocumentContentChangeEvent;
 import org.eclipse.lsp4j.TextDocumentIdentifier;
 import org.eclipse.lsp4j.TextDocumentItem;
 import org.eclipse.lsp4j.VersionedTextDocumentIdentifier;
-import org.eclipse.lsp4j.WorkspaceFolder;
 import org.eclipse.lsp4j.jsonrpc.messages.Either;
 import org.kogito.core.internal.engine.BuildInformation;
 import org.kogito.core.internal.engine.JavaEngine;
@@ -49,6 +50,7 @@ public class GetClassesHandler extends Handler {
 
     private final JavaEngine javaEngine;
     private final Logger logger = LoggerFactory.getLogger(GetClassesHandler.class);
+    private final java.util.logging.Logger LOG = java.util.logging.Logger.getLogger(GetClassesHandler.class.getName());
 
     public GetClassesHandler(String id, JavaEngine javaEngine) {
         super(id);
@@ -62,27 +64,19 @@ public class GetClassesHandler extends Handler {
     public Object handle(List<Object> arguments, IProgressMonitor progress) {
 
         if (arguments.size() < 1) {
-            throw new IllegalArgumentException("Not enought Arguments for GetClasses command. Need one argument containing a text to be autocompleted");
+            throw new IllegalArgumentException("Not enough arguments for GetClasses command. Need one argument containing a text to be autocompleted");
+        } else {
+            logger.info("Arguments: {}", arguments.get(0));
         }
-
-        String completeText = (String) arguments.get(0);
 
         JDTLanguageServer languageServer = (JDTLanguageServer) JavaLanguageServerPlugin.getInstance().getProtocol();
 
-        List<WorkspaceFolder> workspaceFolders = JavaLanguageServerPlugin.getProjectsManager()
-                .getConnection()
-                .workspaceFolders()
-                .getNow(Collections.emptyList());
+        String completeText = (String) arguments.get(0);
 
-        if (workspaceFolders.size() < 1) {
-            String message = "No workspaces availables";
-            logger.error(message);
-            throw new RuntimeException(message);
-        }
+        IProject p = ResourcesPlugin.getWorkspace().getRoot().getProjects()[0];
+        String workspace = p.getRawLocation().makeAbsolute().toOSString();
 
-        WorkspaceFolder workspace = workspaceFolders.get(0);
-
-        String uri = "file://" + workspace.getUri() + "/src/main/java/org/kogito/KogitoJDTLSPlugin.java";
+        String uri = "file://" + workspace + "/src/main/java/com/redhat/KogitoJDTLSPlugin.java";
         logger.info(uri);
         BuildInformation buildInformation = javaEngine.buildImportClass(uri, completeText);
 

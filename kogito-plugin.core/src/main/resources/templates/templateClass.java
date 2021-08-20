@@ -1,10 +1,7 @@
-package com.redhat.cajun.navy.process;
-
-import org.kogito.KogitoActivator;
+package com.redhat;
 
 import {{completeText}}
 
-@KogitoActivator
-public class {{className}} {
+public class {{className}}{
 
-}
+        }

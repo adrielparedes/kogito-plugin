@@ -37,13 +37,9 @@ public class JavaEngine {
 
     public JavaEngine() {
         this.engine = new Configuration(Configuration.getVersion());
-        try {
-            Path templatePath = Paths.get("src/main/resources/templates");
-            logger.info("Getting templates from {}", templatePath);
-            this.engine.setDirectoryForTemplateLoading(templatePath.toFile());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        engine.setClassForTemplateLoading(this.getClass(), "/templates/");
+//            File templates = new File("src/main/resources/templates");
+//            this.engine.setDirectoryForTemplateLoading(templates);
     }
 
     protected String evaluate(String template, TemplateParameters templateParameters) {

@@ -38,7 +38,7 @@ public class DelegateHandler implements IDelegateCommandHandler {
     }};
 
     public Object executeCommand(String commandId, List<Object> arguments, IProgressMonitor progress) throws Exception {
-//        LogToFile.log(commandId);
+        logger.info(commandId);
         return handlers.stream().filter(handler -> handler.canHandle(commandId))
                 .findFirst()
                 .map(handler -> handler.handle(arguments, progress))
