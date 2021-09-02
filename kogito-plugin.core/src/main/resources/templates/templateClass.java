@@ -1,7 +1,7 @@
 package com.redhat;
 
-import {{completeText}}
+import ${ completeText }
 
-public class {{className}}{
+public class ${ className }{
 
-        }
+}

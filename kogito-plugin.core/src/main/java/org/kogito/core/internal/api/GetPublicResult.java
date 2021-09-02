@@ -14,21 +14,26 @@
  *    limitations under the License.
  */
 
-package org.kogito.core.internal.engine;
+package org.kogito.core.internal.api;
 
-import org.apache.log4j.Logger;
-import org.junit.jupiter.api.Test;
+public class GetPublicResult {
 
-class JavaEngineTest {
+    private String fqcn;
+    private String result;
 
-    //    private final Logger logger = LoggerFactory.getLogger(JavaEngineTest.class);
-    private Logger logger = Logger.getLogger(JavaEngineTest.class);
+    public String getFqcn() {
+        return fqcn;
+    }
 
-    @Test
-    public void test() {
-        JavaEngine javaEngine = new JavaEngine();
-        TemplateParameters params = new TemplateParameters();
-        String result = javaEngine.evaluate(Templates.TEMPLATE_CLASS, params);
-        logger.info(result);
+    public void setFqcn(String fqcn) {
+        this.fqcn = fqcn;
+    }
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
     }
 }

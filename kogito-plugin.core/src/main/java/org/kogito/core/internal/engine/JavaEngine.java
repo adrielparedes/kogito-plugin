@@ -26,20 +26,16 @@ import java.nio.file.Paths;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+import org.eclipse.jdt.ls.core.internal.JavaLanguageServerPlugin;
 import org.kogito.core.internal.engine.exceptions.EngineException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class JavaEngine {
 
     private final Configuration engine;
-    private final Logger logger = LoggerFactory.getLogger(JavaEngine.class);
 
     public JavaEngine() {
         this.engine = new Configuration(Configuration.getVersion());
         engine.setClassForTemplateLoading(this.getClass(), "/templates/");
-//            File templates = new File("src/main/resources/templates");
-//            this.engine.setDirectoryForTemplateLoading(templates);
     }
 
     protected String evaluate(String template, TemplateParameters templateParameters) {
@@ -50,7 +46,7 @@ public class JavaEngine {
             return writer.toString();
         } catch (Exception e) {
             String message = "Can't evaluate template " + template;
-            logger.error(message, e);
+            JavaLanguageServerPlugin.logException(message, e);
             throw new EngineException(message, e);
         }
     }
@@ -80,7 +76,7 @@ public class JavaEngine {
 
     protected int getEndOfLinePosition(String content, int lineNumber) {
         String[] split = content.split("\n");
-        logger.info(split[lineNumber]);
+        JavaLanguageServerPlugin.logInfo(split[lineNumber]);
         return split[lineNumber].length();
     }
 
@@ -97,7 +93,7 @@ public class JavaEngine {
         try {
             return Files.readString(Path.of(URI.create(uri)));
         } catch (IOException e) {
-            logger.error("Can't read content from: " + uri, e);
+            JavaLanguageServerPlugin.logException("Can't read content from: " + uri, e);
             return "";
         }
     }

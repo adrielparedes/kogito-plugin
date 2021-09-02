@@ -12,14 +12,9 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-ClassPath: lib/freemarker-2.3.31.jar,
- lib/logback-classic-1.2.5.jar,
- lib/logback-core-1.2.5.jar,
- lib/slf4j-api-1.7.30.jar,
  .
 Import-Package: com.google.gson,
  com.google.gson.stream,
- org.eclipse.lsp4j,
- org.slf4j,
- ch.qos.logback.core
+ org.apache.log4j
 
 

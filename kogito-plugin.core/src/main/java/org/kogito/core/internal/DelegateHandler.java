@@ -19,22 +19,25 @@ package org.kogito.core.internal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.ls.core.internal.IDelegateCommandHandler;
 import org.kogito.core.internal.engine.JavaEngine;
+import org.kogito.core.internal.handlers.AutocompleteHandler;
 import org.kogito.core.internal.handlers.GetClassesHandler;
+import org.kogito.core.internal.handlers.GetAccessorsHandler;
 import org.kogito.core.internal.handlers.Handler;
 import org.kogito.core.internal.handlers.HandlerConstants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class DelegateHandler implements IDelegateCommandHandler {
 
     private static final JavaEngine JAVA_ENGINE = new JavaEngine();
-    private static Logger logger = LoggerFactory.getLogger(DelegateHandler.class);
+    private static final AutocompleteHandler AUTOCOMPLETE_HANDLER = new AutocompleteHandler();
+    private static Logger logger = Logger.getLogger(DelegateHandler.class);
 
-    private static final List<Handler> handlers = new ArrayList<>() {{
-        add(new GetClassesHandler(HandlerConstants.GET_CLASSES, JAVA_ENGINE));
+    private static final List<Handler<?>> handlers = new ArrayList<>() {{
+        add(new GetClassesHandler(HandlerConstants.GET_CLASSES, JAVA_ENGINE, AUTOCOMPLETE_HANDLER));
+        add(new GetAccessorsHandler(HandlerConstants.GET_ACCESSORS, JAVA_ENGINE, AUTOCOMPLETE_HANDLER));
     }};
 
     public Object executeCommand(String commandId, List<Object> arguments, IProgressMonitor progress) throws Exception {
