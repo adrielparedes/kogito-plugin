@@ -19,7 +19,9 @@ package org.kogito.core.internal.api;
 public class GetPublicResult {
 
     private String fqcn;
-    private String result;
+    private String accessor;
+
+    private String type;
 
     public String getFqcn() {
         return fqcn;
@@ -29,11 +31,19 @@ public class GetPublicResult {
         this.fqcn = fqcn;
     }
 
-    public String getResult() {
-        return result;
+    public String getAccessor() {
+        return accessor;
     }
 
-    public void setResult(String result) {
-        this.result = result;
+    public void setAccessor(String accessor) {
+        this.accessor = accessor;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

@@ -55,7 +55,7 @@ public class JavaEngine {
 
         TemplateParameters item = new TemplateParameters();
         item.setClassName(getClassName(uri));
-        item.setCompleteText(importText);
+        item.setQuery(importText);
 
         String content = this.evaluate(Templates.TEMPLATE_CLASS, item);
 
@@ -66,12 +66,12 @@ public class JavaEngine {
 
         TemplateParameters item = new TemplateParameters();
         item.setClassName(getClassName(uri));
-        item.setCompleteText(completeText);
+        item.setQuery(completeText);
         item.setFqcn(fqcn);
 
         String content = this.evaluate(Templates.TEMPLATE_ACCESSORS, item);
 
-        return new BuildInformation(uri, getContent(uri), content, 8, getEndOfLinePosition(content, 8));
+        return new BuildInformation(uri, getContent(uri), content, 6, getEndOfLinePosition(content, 6));
     }
 
     protected int getEndOfLinePosition(String content, int lineNumber) {

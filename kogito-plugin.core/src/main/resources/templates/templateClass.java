@@ -1,6 +1,6 @@
 package com.redhat;
 
-import ${ completeText }
+import ${ query }
 
 public class ${ className }{
 

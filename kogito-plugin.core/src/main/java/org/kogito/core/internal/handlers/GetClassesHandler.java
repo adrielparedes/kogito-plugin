@@ -43,7 +43,6 @@ public class GetClassesHandler extends Handler<List<GetClassesResult>> {
     }
 
     public CompletableFuture<List<GetClassesResult>> handle(List<Object> arguments, IProgressMonitor progress) {
-
         checkParameters(arguments);
         String completeText = (String) arguments.get(0);
         BuildInformation buildInformation = javaEngine.buildImportClass(this.autocompleteHandler.getUri(), completeText);

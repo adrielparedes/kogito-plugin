@@ -18,16 +18,16 @@ package org.kogito.core.internal.engine;
 
 public class TemplateParameters {
 
-    private String completeText;
+    private String query;
     private String fqcn;
     private String className;
 
-    public String getCompleteText() {
-        return completeText;
+    public String getQuery() {
+        return query;
     }
 
-    public void setCompleteText(String completeText) {
-        this.completeText = completeText;
+    public void setQuery(String query) {
+        this.query = query;
     }
 
     public String getFqcn() {

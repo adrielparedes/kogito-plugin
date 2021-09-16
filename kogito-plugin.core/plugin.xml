@@ -20,6 +20,7 @@
   <extension point="org.eclipse.jdt.ls.core.delegateCommandHandler">
     <delegateCommandHandler class="org.kogito.core.internal.DelegateHandler">
       <command id="org.kogito.getClasses"/>
+      <command id="org.kogito.getAccessors"/>
     </delegateCommandHandler>
   </extension>
 </plugin>

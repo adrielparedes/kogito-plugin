@@ -41,6 +41,7 @@ public class GetAccessorsHandler extends Handler<List<GetPublicResult>> {
 
     @Override
     public CompletableFuture<List<GetPublicResult>> handle(List<Object> arguments, IProgressMonitor progress) {
+        JavaLanguageServerPlugin.logInfo("Handle Accessors");
         GetPublicParameters parameters = checkParameters(arguments);
         BuildInformation buildInformation = javaEngine.buildPublicContent(this.autocompleteHandler.getUri(),
                                                                           parameters.getFqcn(),
@@ -55,7 +56,8 @@ public class GetAccessorsHandler extends Handler<List<GetPublicResult>> {
         if (arguments.size() < 2) {
             throw new IllegalArgumentException("Not enough arguments for GetClasses command. Need one argument containing a text to be autocompleted");
         } else {
-            JavaLanguageServerPlugin.logError("Arguments: " + arguments.get(0));
+            JavaLanguageServerPlugin.logInfo("Arguments[0]: " + arguments.get(0));
+            JavaLanguageServerPlugin.logInfo("Arguments[1]: " + arguments.get(1));
         }
 
         GetPublicParameters parameters = new GetPublicParameters();
@@ -66,13 +68,18 @@ public class GetAccessorsHandler extends Handler<List<GetPublicResult>> {
 
     private List<GetPublicResult> transformCompletionItemsToResult(String fqcn, List<CompletionItem> items) {
         return items.stream()
-                .map(item -> {
-                    JavaLanguageServerPlugin.logInfo(item.getLabel());
-                    GetPublicResult result = new GetPublicResult();
-                    result.setFqcn(fqcn);
-                    result.setResult(item.getLabel());
-                    return result;
-                })
+                .filter(item -> item.getLabel().contains(":"))
+                .map(item -> getAccessor(item, fqcn))
                 .collect(Collectors.toList());
+    }
+
+    private GetPublicResult getAccessor(CompletionItem item, String fqcn) {
+        JavaLanguageServerPlugin.logInfo(item.getLabel());
+        String[] label = item.getLabel().split(":");
+        GetPublicResult result = new GetPublicResult();
+        result.setFqcn(fqcn);
+        result.setAccessor(label[0].trim());
+        result.setType(label[1].trim());
+        return result;
     }
 }
